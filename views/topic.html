@@ -1,0 +1,125 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-offset-2 col-sm-8">
+            <section class="topic-list">
+                <article>
+                    <div class="count">
+                        <span class="num">10</span>
+                        <span>Comments</span>
+                    </div>
+                    <div class="info">
+                        <h2 class="title"><a href="#">Topic</a></h2>
+                        <p class="desc">Preambule</p>
+                    </div>
+                </article>
+                <ul class="timeline">
+
+                    <li>
+                        <div class="timeline-badge">
+                            <img src="<%= comment.photo? comment.photo : '/images/stallman.jpg' %>" alt="">
+                        </div>
+                        <div class="timeline-panel" id="commentid">
+                            <div class="timeline-heading">
+                                <h4 class="timeline-title">name</h4>
+                                
+                                <div class="pull-right">
+                                    <span class="glyph-holder">
+                                        <a href="#">
+                                            <i data-id="commentid" data-topic-id="topicid" class="glyphicon glyphicon-edit glyph-info"></i>
+                                        </a>
+                                    </span>
+                                    <span class="glyph-holder">
+                                        <a href="#">
+                                            <i class="glyphicon glyphicon-remove-sign glyph-danger"></i>
+                                        </a>
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="timeline-body">
+                                <p class="desc">Body</p>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="timeline-badge">
+                            <img src="<%= comment.photo? comment.photo : '/images/stallman.jpg' %>" alt="">
+                        </div>
+                        <div class="timeline-panel" id="commentid">
+                            <div class="timeline-heading">
+                                <h4 class="timeline-title">name</h4>
+                                
+                                <div class="pull-right">
+                                    <span class="glyph-holder">
+                                        <a href="#">
+                                            <i data-id="commentid" data-topic-id="topicid" class="glyphicon glyphicon-edit glyph-info"></i>
+                                        </a>
+                                    </span>
+                                    <span class="glyph-holder">
+                                        <a href="#">
+                                            <i class="glyphicon glyphicon-remove-sign glyph-danger"></i>
+                                        </a>
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="timeline-body">
+                                <p class="desc">Body</p>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <div class="timeline-badge">
+                            <img src="<%= comment.photo? comment.photo : '/images/stallman.jpg' %>" alt="">
+                        </div>
+                        <div class="timeline-panel" id="commentid">
+                            <div class="timeline-heading">
+                                <h4 class="timeline-title">name</h4>
+                                
+                                <div class="pull-right">
+                                    <span class="glyph-holder">
+                                        <a href="#">
+                                            <i data-id="commentid" data-topic-id="topicid" class="glyphicon glyphicon-edit glyph-info"></i>
+                                        </a>
+                                    </span>
+                                    <span class="glyph-holder">
+                                        <a href="#">
+                                            <i class="glyphicon glyphicon-remove-sign glyph-danger"></i>
+                                        </a>
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="timeline-body">
+                                <p class="desc">Body</p>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <div class="timeline-badge">
+                            <img src="/images/stallman.jpg">
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="timeline-title">Facebook name</h4>
+                            </div>
+
+                            <div class="timeline-body">
+                                <form action="#" method="post">
+                                    <textarea name="comment" class="well"></textarea>
+                                    <button type="submit" class="btn btn-default">Comment</button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </section>
+        </div>
+    </div>
+</div>
+<script src="/js/timeline.js"></script>
