@@ -107,6 +107,266 @@ var server = app.listen(8081, function () {
                     </code></pre>
                 </section>
 
+                <section>
+                    <h2>Let's add a small code</h2>
+                    <pre>main.js<code data-trim contenteditable>
+//...
+app.get('/', function (req, res) {
+    var percent = Math.round(Math.random() * 100);
+    res.send('Je suis ' + percent + '% en forme pour ce workshop !');
+});
+//...
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Serving Static Files</h2>
+                    <pre>main.js<code data-trim contenteditable>
+//...
+app.use(express.static('public'));
+app.get('/', function (req, res) {
+    res.sendFile( __dirname + "/" + "index.html" );
+});
+//...
+                    </code></pre>
+                    <pre>index.html<code data-trim contenteditable>
+<!--<!DOCTYPE html>
+<html>
+    <head>
+        <title>Live Forum</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <img src="images/freeways.jpg" alt="Freeways">
+        <div>Topics goes here !</div>
+    </body>
+</html>-->
+                    </code></pre>
+                </section>
+                <section>
+                    <section>
+                        <h2>Templating</h2>
+                        <p>EJS : <a href='http://www.embeddedjs.com/' target="_blank">http://www.embeddedjs.com/</a></p>
+                        <p>JADE : <a href='http://jade-lang.com/' target="_blank">http://jade-lang.com/</a></p>
+                    </section>
+
+                    <section>
+                        <h2>Templating</h2>
+                        <pre>package.json<code data-trim contenteditable>
+  "dependencies": {
+    "express": "4.13.3",
+    "ejs": "2.3.4"
+  }
+}
+                    </code></pre>
+                    </section>    
+
+                    <section>
+                        <h2>Templating</h2>
+                        <pre>main.js<code data-trim contenteditable>
+var express = require('express');
+var ejs = require('ejs');
+var app = express();
+
+app.set('view engine', 'ejs');
+app.engine('html', ejs.renderFile);
+
+app.use(express.static('public'));
+
+app.get('/', function (req, res) {
+    var serverMessage = "Hello I am JS from server main.js file";
+    res.render("index.html", {message: serverMessage});
+    console.log(serverMessage);
+});
+//...
+                    </code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Templating</h2>
+                        <pre>index.html → views/index.html<code data-trim contenteditable>
+//...
+<img src="images/freeways.jpg" alt="Freeways">
+<h3>I am HTML from the index.html file</h3>
+<h3><%= message %></h3>
+<h3 id="client"></h3>
+<script src="/js/client.js"></script>
+//...
+                    </code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Templating</h2>
+                        <pre>public/js/client.js<code data-trim contenteditable>
+var clientMessage = "Hello I am JS from js/client.js file";
+document.getElementById('client').appendChild(document.createTextNode(clientMessage));
+console.log(clientMessage);
+                    </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Routing</h2>
+                        <p>Path + methode = function</p>
+                    </section>
+                    <section>
+                        <h2>Routing</h2>
+                        <pre>main.js<code data-trim contenteditable>
+app.get('/', function (req, res) {
+    res.render("index.html", {methode: 'get', page: 'homepage'});
+});
+
+app.post('/', function (req, res) {
+    res.render("index.html", {methode: 'post', page: 'homepage'});
+});
+
+app.get('/user', function (req, res) {
+    res.render("index.html", {methode: 'get', page: 'user'});
+});
+
+app.get('/*ow', function(req, res) {
+   res.render("index.html", {methode: 'get', page: '*ow'});
+});
+
+app.get('/user/:id', function(req, res) {
+   res.render("index.html", {methode: 'get', page: 'user' + req.params.id});
+});
+                    </code></pre>
+                    </section>
+                    <section>
+                        <h2>Routing</h2>
+                        <pre>views/index.html<code data-trim contenteditable>
+<form action="/" method="post">
+    <input type="text">
+    <input type="submit" value="submit">
+</form>
+<img src="/images/freeways.jpg" alt="Freeways">
+<h3>Got a <%= methode %> request for the <%= page %></h3>
+                    </code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Middlewares</h2>
+                        <pre><code style="word-wrap: break-word;">
+app.get('/path', middleware1, middleware2, ... ,function (req, res){
+    //...
+});
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>First Query</h2>
+                        <pre>package.json<code data-trim contenteditable>
+  "dependencies": {
+    "express": "4.13.3",
+    "ejs": "2.3.4",
+    "mysql": "2.10.2"
+  }
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>First Query</h2>
+                        <pre>main.js<code data-trim contenteditable>
+var connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'live-forum'
+});
+
+connection.connect(function (err) {
+    if (!err) {
+        console.log("Database is connected ... nn");
+    } else {
+        console.log("Error connecting database ... nn");
+    }
+});
+
+app.get('/', function (req, res) {
+    connection.query('SELECT * from topic', function (err, rows) {
+        connection.end();
+        if (!err){
+            res.render("index.html", {topics: rows});
+        }else
+            console.log('Error while performing Query.');
+    });
+});      
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>First Query</h2>
+                        <pre>views/index.html<code data-trim contenteditable>
+<ul>
+    <% topics.forEach(function (topic) {%>
+    <li><%= topic.subject %></li>
+    <% }) %>
+</ul>
+                    </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Expose modules</h2>
+                        <pre>db.js<code data-trim contenteditable>
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'live-forum'
+});
+
+connection.connect(function (err) {
+    if (!err) {
+        console.log("Database is connected ... nn");
+    } else {
+        console.log("Error connecting database ... nn");
+    }
+});
+exports.connect = connection;
+                    </code></pre>
+                    </section>
+                    <section>
+                        <h2>Expose modules</h2>
+                        <pre>main.js<code data-trim contenteditable>
+var express = require('express');
+var ejs = require('ejs');
+var connection = require('./db').connect;
+//...
+app.get('/', function (req, res) {
+    connection.query('SELECT * from topic', function (err, rows) {
+        if (!err)
+            res.render("index.html", {topics: rows});
+        else
+            console.log('Error while performing Query.');
+    });
+});
+                    </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <h2>Ennoncé</h2>
+                    <p>
+                        Afin d'agrandir son reseau, Freeways compte developper
+                        un forum facile à acceder et offrant une fonctionalité
+                        de chat.
+                    </p>
+                    <ul>
+                        <li>Le site doit etre accible à traver facebook.</li>
+                        <li>Les sujets de forum sont seuelement gérable par les admins</li>
+                        <li>Les utilisateurs peuvent commenter un sujet</li>
+                        <li>Les utilisateurs peuvent modifier leurs commentaires</li>
+                        <li>Les utilisateurs peuvent supprimer leurs commentaires</li>
+                        <li>Tout utilisateurs connecté peux chater avec le rest des utilisateurs connectés</li>
+                    </ul>
+                </section>
+                <section data-background="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
+                    Let's nail it
+                </section>
             </div>
 
         </div>
@@ -129,12 +389,6 @@ var server = app.listen(8081, function () {
               dependencies: [
                 {src: 'lib/js/classList.js', condition: function () {
                     return !document.body.classList;
-                  }},
-                {src: 'plugin/markdown/marked.js', condition: function () {
-                    return !!document.querySelector('[data-markdown]');
-                  }},
-                {src: 'plugin/markdown/markdown.js', condition: function () {
-                    return !!document.querySelector('[data-markdown]');
                   }},
                 {src: 'plugin/highlight/highlight.js', async: true, condition: function () {
                     return !!document.querySelector('pre code');
